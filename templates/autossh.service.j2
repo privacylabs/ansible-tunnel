@@ -1,0 +1,13 @@
+[Unit]
+Description=autossh service for reverse tunneling with the gateway
+After=network.target
+
+[Service]
+User={{ ansible_ssh_user }}
+Environment="AUTOSSH_GATETIME=0"
+ExecStart=/usr/bin/autossh -M 0 -q -N gateway
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

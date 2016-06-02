@@ -1,0 +1,38 @@
+---
+  - name: Install autossh
+    package:
+      state: present
+      name: autossh
+    become: yes
+
+  - name: Copy ssh config
+    template:
+      src: ssh_config.j2
+      dest: ~/.ssh/config
+
+  - name: Copy autossh service config
+    template:
+       src: autossh.service.j2
+       dest: /etc/systemd/system/autossh.service
+    become: yes
+
+  - name: Reload systemctl
+    command: systemctl daemon-reload
+    become: yes
+
+  - name: Add gateway as known host
+    lineinfile:
+      dest: ~/.ssh/known_hosts
+      create: yes
+      state: present
+      line: "{{ lookup('pipe', 'ssh-keyscan -t rsa ' + item) }}"
+      regexp: "{{'^' + item }}"
+    with_items:
+      - "{{ hostvars['gateway']['ansible_host'] }}"
+
+  - name: Start autossh
+    service:
+      enabled: yes
+      name: autossh
+      state: restarted
+    become: yes

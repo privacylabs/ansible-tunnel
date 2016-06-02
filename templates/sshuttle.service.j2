@@ -1,0 +1,12 @@
+[Unit]
+Description=sshuttle service a permanent tunnel
+After=network.target
+
+[Service]
+User={{ ansible_ssh_user }}
+ExecStart=/usr/local/bin/sshuttle -r {{ hostvars['gateway']['ansible_user'] }}@{{hostvars['gateway']['ansible_host']}} -x 192.168.0.0/16 -x 10.0.0.0/8 0/0
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

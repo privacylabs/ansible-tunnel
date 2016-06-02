@@ -1,0 +1,6 @@
+---
+  - include: autossh.yml
+    when: autossh == true
+
+  - include: sshuttle.yml
+    when: sshuttle == true

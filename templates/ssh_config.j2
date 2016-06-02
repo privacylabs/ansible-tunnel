@@ -1,0 +1,10 @@
+Host gateway
+  HostName	{{ hostvars['gateway']['ansible_host'] }}
+  User		root
+  RemoteForward	993  localhost:993
+  RemoteForward 587  localhost:587
+  RemoteForward 25   localhost:25
+  RemoteForward 80   localhost:80
+  RemoteForward 443  localhost:443
+  RemoteForward 8443 localhost:8443
+
