@@ -1,6 +1,6 @@
 ---
   - name: Install autossh
-    package:
+    apt:
       state: present
       name: autossh
     become: yes
